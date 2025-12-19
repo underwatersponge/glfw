@@ -11,7 +11,7 @@ _ReSharper*
 *.sdf
 *.suo
 *.dir
-*.vcxproj*
+# *.vcxproj* // by uws for better view in vs
 *.sln
 .vs
 CMakeSettings.json
