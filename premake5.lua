@@ -1,12 +1,14 @@
 project "GLFW"
     kind "StaticLib"
     language "C"
+    staticruntime "On"
 
     targetdir ("bin/" ..  outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     filter{"toolset:msc*"}
         buildoptions{"/utf-8"}
+
     files
     {
         "include/GLFW/glfw3.h",
@@ -24,11 +26,9 @@ project "GLFW"
         "src/monitor.c",
         "src/vulkan.c",
         "src/window.c",
-
         "src/null_platform.h",
         "src/null_joystick.h",
         "src/null_init.c",
-
         "src/null_monitor.c",
         "src/null_window.c",
         "src/null_joystick.c"
@@ -36,15 +36,13 @@ project "GLFW"
 
     -- look the targetsource in CMakeLists.txt
     filter "system:windows"
-        buildoptions {"-std=c11", "-lgdi32"}
+        -- buildoptions {"-std=c11", "-lgdi32"}
         systemversion "latest"
-        staticruntime "On"
         
         defines 
         { 
             "_GLFW_WIN32",
             "_CRT_SECURE_NO_WARNINGS"
-
         }
 
         files
@@ -65,5 +63,10 @@ project "GLFW"
             -- "src/egl_context.c",
         }
 
-        filter {"system:widnows", "configurations:Release"}
-            buildoptions "/MT"
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "On"
